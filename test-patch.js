@@ -4,8 +4,8 @@ const axios = require('axios');
 async function testPatchRequest() {
   try {
     const response = await axios.patch('http://localhost:3000/user', {
-      name: 'Alice Johnson',
-      email: 'alice@example.com'
+      email: 'alice@example.com',
+      subjects: [4, 5, 6],
     });
     console.log('Response data:', response.data);
   } catch (error) {

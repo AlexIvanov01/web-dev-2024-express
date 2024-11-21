@@ -18,7 +18,8 @@ async function testPostUserRequest() {
     const response = await axios.post('http://localhost:3000/user', {
       name: 'John Doe',
       email: 'johndoe@example.com',
-      universityId: 1
+      universityId: 1,
+      subjects: [ 1, 2, 3],
     });
     console.log('Response data:', response.data);
   } catch (error) {

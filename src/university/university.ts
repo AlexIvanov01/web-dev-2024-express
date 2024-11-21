@@ -6,9 +6,11 @@ interface UniversityAttributes {
   town: string;
 }
 
-interface UniversityCreationAttributes extends Optional<UniversityAttributes, 'id'> {}
+interface UniversityCreationAttributes extends Optional<
+UniversityAttributes, 'id'> {}
 
-export class University extends Model<UniversityAttributes, UniversityCreationAttributes> implements UniversityAttributes {
+export class University extends Model<UniversityAttributes,
+ UniversityCreationAttributes> implements UniversityAttributes {
   public id!: number;
   public name!: string;
   public town!: string;

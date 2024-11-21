@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('/', async (req: Request, res: Response) => {
   try {
-    const { name, email, universityId } = req.body;
+    const { name, email, universityId, subjects } = req.body;
     const university = await db.models.University.findByPk(universityId); 
 
     if (!university) {
@@ -16,15 +16,15 @@ router.post('/', async (req: Request, res: Response) => {
     if (await db.models.User.findOne({ where: { email } })) {
       throw new Error("User already exists.")
     }
-    
-    const user = await db.models.User.create({ name, email, universityId });
+
+    const user = await db.models.User.create({ name, email, universityId, subjects });
     res.status(201).json(user);
   } catch (error: any) {
     res.status(400).json({ error: error.message });
   }
 });
 
-router.get('/', async (_req: Request, res: Response) => {
+router.get('/', async (_req: Request,  res: Response) => {
   try {
     const users = await db.models.User.findAll({
       include: {
@@ -34,6 +34,25 @@ router.get('/', async (_req: Request, res: Response) => {
     });
     res.status(200).json(users);
   } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.put('/subjects', async (req: Request, res: Response) => {
+  try {
+    const { email, subjects } = req.body;
+
+    let User = await db.models.User.findOne({ where: {email}});
+
+    if(!User){
+      throw new Error("User doesnt exists.")
+    }
+    
+    User.setSubjects(subjects);
+    
+    await db.models.User.update({subjects: subjects} , { where: {email}});
+
+  }catch (error: any) {
     res.status(500).json({ error: error.message });
   }
 });
